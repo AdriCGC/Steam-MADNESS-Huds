@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 4380620386216580282}
   - component: {fileID: 4094403008245032861}
   - component: {fileID: 3254795165056399406}
+  - component: {fileID: -4305756762506238093}
   m_Layer: 0
   m_Name: InimigoRanged
   m_TagString: Untagged
@@ -183,9 +184,36 @@ MonoBehaviour:
   vida: 100
   tempoDano: 0.1
   rendererInimigo: {fileID: 901425557110739602}
-  distanciaVisao: 30
-  distanciaTiro: 15
+  distanciaVisao: 80
   projetil: {fileID: 4578111289214455860, guid: d3060629e7d382e4bbb89e4750f317a0, type: 3}
   pontoTiro: {fileID: 5290817548261771916}
+  distanciaTiro: 15
   intervaloTiro: 1.5
   forcaProjetil: 15
+--- !u!54 &-4305756762506238093
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533451304471495596}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0

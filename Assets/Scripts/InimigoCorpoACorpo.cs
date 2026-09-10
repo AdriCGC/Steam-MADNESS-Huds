@@ -21,6 +21,7 @@ public class InimigoCorpoACorpo : MonoBehaviour
     private Material material;
     private Color corOriginal;
     private float proximoAtaque;
+    private bool perseguindo;
 
 
     private void Awake()
@@ -51,20 +52,24 @@ public class InimigoCorpoACorpo : MonoBehaviour
 
         float distancia = Vector3.Distance(transform.position, jogador.position);
 
-        if (distancia <= distanciaVisao && PodeVerJogador())
+        if (!perseguindo && distancia <= distanciaVisao && PodeVerJogador())
         {
-            if (distancia > distanciaAtaque)
-            {
-                Perseguir();
-            }
-            else
-            {
-                Atacar();
-            }
+            perseguindo = true;
+        }
+
+        if (!perseguindo)
+        {
+            Parar();
+            return;
+        }
+
+        if (distancia > distanciaAtaque)
+        {
+            Perseguir();
         }
         else
         {
-            Parar();
+            Atacar();
         }
     }
 

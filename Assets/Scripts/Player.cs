@@ -1,8 +1,15 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
+    //Hud
+    [SerializeField] private InGameAnimations Animacao;
+
+
     // Movimento
     [SerializeField] private float velocidade = 10.0f;
 
@@ -12,6 +19,7 @@ public class Player : MonoBehaviour
     // Câmera
     [SerializeField] private float sensibilidadeMouse = 20.0f;
     [SerializeField] private Transform camera;
+    
 
     // Tiro
     [SerializeField] private float distanciaTiro = 100.0f;
@@ -20,6 +28,7 @@ public class Player : MonoBehaviour
     // Munição
     [SerializeField] private int capacidadeMunicao = 5;
     [SerializeField] private float tempoRecarga = 1.5f;
+    [SerializeField] TextMeshProUGUI Municao;
 
     // Dash
     [SerializeField] private float forcaDash = 15.0f;
@@ -28,6 +37,7 @@ public class Player : MonoBehaviour
 
     // Vida
     [SerializeField] private float vida = 100.0f;
+    [SerializeField] private Slider BarraVida;
 
     // Referências
     private Rigidbody rb;
@@ -76,6 +86,9 @@ public class Player : MonoBehaviour
 
         transform.Rotate(0f, rotacaoHorizontal, 0f);
         camera.localRotation = Quaternion.Euler(rotacaoVertical, 0f, 0f);
+
+        //Barra de vida 
+        BarraVida.value = vida;
 
 
         // Pulo
@@ -166,7 +179,7 @@ public class Player : MonoBehaviour
         proximoTiro = Time.time + intervaloTiro;
         municaoAtual--;
 
-        Debug.Log("Munição: " + municaoAtual + "/" + capacidadeMunicao);
+       Municao.text = municaoAtual + "/" + capacidadeMunicao;
 
         Ray ray = new Ray(camera.position, camera.forward);
         RaycastHit hit;
@@ -205,16 +218,19 @@ public class Player : MonoBehaviour
         municaoAtual = capacidadeMunicao;
         estaRecarregando = false;
 
-        Debug.Log("Recarregado! Munição: " + municaoAtual + "/" + capacidadeMunicao);
+        Municao.text = municaoAtual + "/" + capacidadeMunicao;
+
     }
 
 
     public void ReceberDano(float dano)
     {
         vida -= dano;
-
-        Debug.Log("Vida do Player: " + vida);
-
+        Animacao.Dano();
+        if(vida <= 25.0f)
+        {
+            Animacao.Morrendo = true;
+        }
         if (vida <= 0)
         {
             Morrer();
@@ -224,7 +240,7 @@ public class Player : MonoBehaviour
 
     private void Morrer()
     {
-        Debug.Log("Player morreu!");
+        Animacao.death();
     }
 
 

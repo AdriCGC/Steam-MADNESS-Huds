@@ -10,11 +10,11 @@ public class Inimigo : MonoBehaviour
 
     // Detecção
     [SerializeField] private float distanciaVisao = 20.0f;
-    [SerializeField] private float distanciaTiro = 12.0f;
 
     // Tiro
     [SerializeField] private GameObject projetil;
     [SerializeField] private Transform pontoTiro;
+    [SerializeField] private float distanciaTiro = 12.0f;
     [SerializeField] private float intervaloTiro = 1.5f;
     [SerializeField] private float forcaProjetil = 15.0f;
 
@@ -23,6 +23,7 @@ public class Inimigo : MonoBehaviour
     private Material material;
     private Color corOriginal;
     private float proximoTiro;
+    private bool perseguindo;
 
 
     private void Awake()
@@ -53,18 +54,24 @@ public class Inimigo : MonoBehaviour
 
         float distancia = Vector3.Distance(transform.position, jogador.position);
 
-        if (distancia <= distanciaVisao && PodeVerJogador())
+        if (!perseguindo && distancia <= distanciaVisao && PodeVerJogador())
+        {
+            perseguindo = true;
+        }
+
+        if (!perseguindo)
+        {
+            Parar();
+            return;
+        }
+
+        if (distancia > distanciaTiro)
         {
             Perseguir();
-
-            if (distancia <= distanciaTiro)
-            {
-                Atirar();
-            }
         }
         else
         {
-            Parar();
+            Atirar();
         }
     }
 
@@ -107,6 +114,17 @@ public class Inimigo : MonoBehaviour
 
     private void Atirar()
     {
+        agente.isStopped = true;
+
+        Vector3 direcao = jogador.position - transform.position;
+        direcao.y = 0f;
+
+        if (direcao != Vector3.zero)
+        {
+            Quaternion rotacao = Quaternion.LookRotation(direcao);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotacao, Time.deltaTime * 5.0f);
+        }
+
         if (Time.time < proximoTiro)
         {
             return;
@@ -120,8 +138,8 @@ public class Inimigo : MonoBehaviour
 
         if (rbProjetil != null)
         {
-            Vector3 direcao = (jogador.position - pontoTiro.position).normalized;
-            rbProjetil.linearVelocity = direcao * forcaProjetil;
+            Vector3 direcaoTiro = (jogador.position - pontoTiro.position).normalized;
+            rbProjetil.linearVelocity = direcaoTiro * forcaProjetil;
         }
     }
 
