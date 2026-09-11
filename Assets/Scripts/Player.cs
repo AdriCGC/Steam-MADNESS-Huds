@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float forcaPulo = 7.0f;
 
     // Câmera
-    [SerializeField] private float sensibilidadeMouse = 20.0f;
+    public float sensibilidadeMouse = 20.0f;
     [SerializeField] private Transform camera;
     
 
@@ -173,13 +173,14 @@ public class Player : MonoBehaviour
         if (municaoAtual <= 0)
         {
             Debug.Log("Munição acabou! Pressione R para recarregar.");
+            Municao.text = "N/A";
             return;
         }
 
         proximoTiro = Time.time + intervaloTiro;
         municaoAtual--;
 
-       Municao.text = municaoAtual + "/" + capacidadeMunicao;
+       Municao.text = municaoAtual + "-" + capacidadeMunicao;
 
         Ray ray = new Ray(camera.position, camera.forward);
         RaycastHit hit;
@@ -211,14 +212,14 @@ public class Player : MonoBehaviour
     {
         estaRecarregando = true;
 
-        Debug.Log("Recarregando...");
+        Municao.text = "R...";
 
         yield return new WaitForSeconds(tempoRecarga);
 
         municaoAtual = capacidadeMunicao;
         estaRecarregando = false;
 
-        Municao.text = municaoAtual + "/" + capacidadeMunicao;
+        Municao.text = municaoAtual + "-" + capacidadeMunicao;
 
     }
 

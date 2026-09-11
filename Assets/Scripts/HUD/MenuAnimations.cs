@@ -13,6 +13,11 @@ public class MenuAnimations : MonoBehaviour
     [SerializeField] FadeTest fade;
     int back = 1;
 
+    void Awake()
+    {
+        Time.timeScale = 1f;
+    }
+
     void Start()
     {
         StartCoroutine(fade.Fade());

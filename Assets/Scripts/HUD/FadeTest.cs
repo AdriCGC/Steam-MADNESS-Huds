@@ -33,7 +33,7 @@ public class FadeTest : MonoBehaviour
 
             fade.SetActive(true);
             animator.SetTrigger("clarear");
-            yield return new WaitForSeconds(1.7f);
+            yield return new WaitForSecondsRealtime(1.7f);
             fade.SetActive(false);
            
 
@@ -46,7 +46,7 @@ public class FadeTest : MonoBehaviour
 
         fade.SetActive(true);
         animator.SetTrigger("Escurecer");
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSecondsRealtime(1.7f);
 
         if(cenaTransicao == true)
             {
@@ -68,7 +68,7 @@ public class FadeTest : MonoBehaviour
     {
         fade.SetActive(true);
         animator.SetTrigger("Morte");
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSecondsRealtime(0.6f);
         SceneManager.LoadScene("GameDeath");
 
     }
